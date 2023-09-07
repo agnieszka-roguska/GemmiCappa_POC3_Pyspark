@@ -1,10 +1,17 @@
 def main(clients_path, financial_path, list_of_countries_to_preserve):
 
     import re
+    import logging
+
     from pyspark.sql import SparkSession
     from pyspark.sql.functions import col
 
     import functions
+
+    FORMAT = '%(asctime)s:%(name)s:%(levelname)s - %(message)s'
+    logging.basicConfig(format = FORMAT, level = logging.INFO)
+
+    logging.info('Info message from me to myself')
 
     working_directory = re.sub(r'/clients.csv', '', clients_path)
 
@@ -14,19 +21,25 @@ def main(clients_path, financial_path, list_of_countries_to_preserve):
             )
 
     #BRONZE DATA - raw data read from the file 
-    clients_DB = (spark
-                .read
-                .option('header', True)
-                .option('delimiter', ',')
-                .csv(clients_path)
-                )
+    try:
+        clients_DB = (spark
+                    .read
+                    .option('header', True)
+                    .option('delimiter', ',')
+                    .csv(clients_path)
+                    )
+    except: 
+        logging.critical("Couldn't load data from clients.csv file")
 
-    financial_DB = (spark
-                .read
-                .option('header', True)
-                .option('delimiter', ',')
-                .csv(financial_path)
-                )
+    try:
+        financial_DB = (spark
+                    .read
+                    .option('header', True)
+                    .option('delimiter', ',')
+                    .csv(financial_path)
+                    )
+    except: 
+        logging.critical("Couldn't load data fromfinancial.csv file")
 
     df = clients_DB.join(financial_DB, 'id')
 
@@ -52,4 +65,3 @@ if __name__ == '__main__':
     list_of_countries_to_preserve = ['Poland', 'France']
 
     main(clients_path, financial_path, list_of_countries_to_preserve)
-
