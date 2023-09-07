@@ -43,5 +43,3 @@ df = (df
       .select([col(x).alias(mapping.get(x, x)) for x in df.columns])
       .drop('first_name', 'last_name', 'phone', 'birthdate', 'id')
       )
-
-df.show()
