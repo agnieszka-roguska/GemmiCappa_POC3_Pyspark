@@ -1,40 +1,55 @@
-from pyspark.sql import SparkSession
-from pyspark.sql.functions import col
+def main(clients_path, financial_path, list_of_countries_to_preserve):
 
-import functions
+    import re
+    from pyspark.sql import SparkSession
+    from pyspark.sql.functions import col
 
-working_directory = '/mnt/c/users/aroguska/PySpark_UpSkill_v0_1_1/poc3/data'
+    import functions
 
-clients_path = working_directory + '/clients.csv'
-financial_path = working_directory + '/financial.csv'
+    working_directory = re.sub(r'/clients.csv', '', clients_path)
 
-spark = (SparkSession.builder
-         .appName('poc')
-         .getOrCreate()
-         )
+    spark = (SparkSession.builder
+            .appName('poc')
+            .getOrCreate()
+            )
 
-#BRONZE DATA - raw data read from the file 
-clients_DB = (spark
-              .read
-              .option('header', True)
-              .option('delimiter', ',')
-              .csv(clients_path)
-              )
+    #BRONZE DATA - raw data read from the file 
+    clients_DB = (spark
+                .read
+                .option('header', True)
+                .option('delimiter', ',')
+                .csv(clients_path)
+                )
 
-financial_DB = (spark
-              .read
-              .option('header', True)
-              .option('delimiter', ',')
-              .csv(financial_path)
-              )
+    financial_DB = (spark
+                .read
+                .option('header', True)
+                .option('delimiter', ',')
+                .csv(financial_path)
+                )
 
-df = clients_DB.join(financial_DB, 'id')
+    df = clients_DB.join(financial_DB, 'id')
 
-column_names_to_change = ['cc_t', 'cc_n', 'cc_mc', 'a', 'ac_t']
-column_names_new = ['credit_card_type', 'credit_card_number', 'credit_card_main_currency', 'active', 'account_type']
+    column_names_to_change = ['cc_t', 'cc_n', 'cc_mc', 'a', 'ac_t']
+    column_names_new = ['credit_card_type', 'credit_card_number', 'credit_card_main_currency', 'active', 'account_type']
 
-df = functions.filter_countries(df, ['Poland', 'France'])
-df = functions.rename_columns(df, column_names_to_change, column_names_new)
-df = functions.remove_personal_identifiable_informations(df)
+    df = functions.filter_countries(df, list_of_countries_to_preserve)
+    df = functions.rename_columns(df, column_names_to_change, column_names_new)
+    df = functions.remove_personal_identifiable_informations(df)
 
-df.show()
+    #writing data to the parquet file
+    (df
+     .write
+     .mode('overwrite')
+     .parquet(working_directory + '/client_data')
+    )
+
+if __name__ == '__main__':
+
+    working_directory = '/mnt/c/users/aroguska/PySpark_UpSkill_v0_1_1/poc3/data'
+    clients_path = working_directory + '/clients.csv'
+    financial_path = working_directory + '/financial.csv'
+    list_of_countries_to_preserve = ['Poland', 'France']
+
+    main(clients_path, financial_path, list_of_countries_to_preserve)
+
