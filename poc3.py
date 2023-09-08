@@ -1,26 +1,26 @@
-def main(clients_path, financial_path, list_of_countries_to_preserve):
+import logging
+
+def main(clients_path : str, financial_path : str, list_of_countries_to_preserve : list):
 
     import re
-    import logging
 
     from pyspark.sql import SparkSession
     from pyspark.sql.functions import col
 
     import functions
-
+ 
     FORMAT = '%(asctime)s:%(name)s:%(levelname)s - %(message)s'
     logging.basicConfig(format = FORMAT, level = logging.INFO)
+    
+    spark = (SparkSession.builder
+                    .appName('poc')
+                    .getOrCreate()
+                    )
 
-    logging.info('Info message from me to myself')
-
+    #extracting working directory from clients.csv directory
     working_directory = re.sub(r'/clients.csv', '', clients_path)
 
-    spark = (SparkSession.builder
-            .appName('poc')
-            .getOrCreate()
-            )
-
-    #BRONZE DATA - raw data read from the file 
+    #BRONZE DATA - raw data read from the file
     try:
         clients_DB = (spark
                     .read
@@ -28,6 +28,7 @@ def main(clients_path, financial_path, list_of_countries_to_preserve):
                     .option('delimiter', ',')
                     .csv(clients_path)
                     )
+        logging.info('Clients data was properly extracted from the file.')
     except: 
         logging.critical("Couldn't load data from clients.csv file")
 
@@ -38,10 +39,14 @@ def main(clients_path, financial_path, list_of_countries_to_preserve):
                     .option('delimiter', ',')
                     .csv(financial_path)
                     )
+        logging.info('Financial data was properly extracted from the file.')
     except: 
-        logging.critical("Couldn't load data fromfinancial.csv file")
+        logging.critical("Couldn't load data from financial.csv file")
 
-    df = clients_DB.join(financial_DB, 'id')
+    df = (clients_DB
+          .join(financial_DB, 'id')
+          .drop('id')
+          )
 
     column_names_to_change = ['cc_t', 'cc_n', 'cc_mc', 'a', 'ac_t']
     column_names_new = ['credit_card_type', 'credit_card_number', 'credit_card_main_currency', 'active', 'account_type']
@@ -51,17 +56,27 @@ def main(clients_path, financial_path, list_of_countries_to_preserve):
     df = functions.remove_personal_identifiable_informations(df)
 
     #writing data to the parquet file
-    (df
-     .write
-     .mode('overwrite')
-     .parquet(working_directory + '/client_data')
-    )
+
+    try:
+        (df
+        .write
+        .mode('overwrite')
+        .parquet(working_directory + '/client_data')
+        )
+        logging.info("Data was properly written to a file.")
+    except:
+        logging.error("Couldn't wite data to a file.")
+
+    df.show()
 
 if __name__ == '__main__':
 
     working_directory = '/mnt/c/users/aroguska/PySpark_UpSkill_v0_1_1/poc3/data'
-    clients_path = working_directory + '/clients.csv'
-    financial_path = working_directory + '/financial.csv'
-    list_of_countries_to_preserve = ['Poland', 'France']
+    list_of_countries_to_preserve = ['France', 'Poland']
 
-    main(clients_path, financial_path, list_of_countries_to_preserve)
+    try:
+        clients_path = working_directory + '/clients.csv'
+        financial_path = working_directory + '/financial.csv'
+        main(clients_path, financial_path, list_of_countries_to_preserve)
+    except:
+        logging.critical("Main app does not work. This may be caused by incorrect directory.")
