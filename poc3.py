@@ -57,7 +57,7 @@ def main(clients_path : str, financial_path : str, list_of_countries_to_preserve
     df = functions.remove_personal_identifiable_information(df)
     logging.info("Sucessfully removed all columns with personal identifiable information ")
     df = functions.rename_columns(df, column_names_to_change, column_names_new)
-    logging.info("Successfully renamed column names containing abbreviations.")
+    logging.info("Successfully renamed abbreviated column names.")
 
     #writing data to the parquet file
     try:
