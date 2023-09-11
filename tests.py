@@ -21,7 +21,9 @@ class TestMethods(unittest.TestCase):
         ('Jordanna', 'Oberman','prs@gmail.com', 'female', 'Iran', '603-679-1426', '1333-04-05','364217694', 'EUR', False, 'acc_type2'),
         ('Emily', 'Goss', 'tuw@gmail.com', 'female', 'Hungary', '414-240-5284', '1333-04-05','373896648', 'CNY', False, 'acc_type2'),
         ('Joshua','Bevier', 'xyz@gmail.com', 'male', 'United States', '603-679-1685', '1333-04-05','987546195', 'EUR', True, 'acc_type3'),
-        ('Gwendolyn', 'Edwards', '123@gmail.com', 'female', 'Czech Republic', '603-679-2947', '1333-04-05','97765433', 'MDL', True, 'acc_type1')]
+        ('Gwendolyn', 'Edwards', '123@gmail.com', 'female', 'Czech Republic', '603-679-2947', '1333-04-05','97765433', 'MDL', True, 'acc_type1')
+        ]
+
     sample_columns = ['first_name', 'last_name', 'email', 'gender', 'country', 'phone', 'birthdate', 'credit_card_number', 'credit_card_main_currency', 'active', 'account_type']
     sample_dataframe = spark.createDataFrame(sample_data, sample_columns)
 
