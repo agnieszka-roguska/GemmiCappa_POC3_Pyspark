@@ -28,9 +28,9 @@ def main(clients_path : str, financial_path : str, list_of_countries_to_preserve
                     .option('delimiter', ',')
                     .csv(clients_path)
                     )
-        logging.info('Clients data was properly extracted from the file.')
+        logging.info('Clients data was correctly extracted from the file.')
     except: 
-        logging.critical("Couldn't load data from clients.csv file")
+        logging.critical("Unable to load data from clients.csv file")
 
     try:
         financial_DB = (spark
@@ -39,9 +39,9 @@ def main(clients_path : str, financial_path : str, list_of_countries_to_preserve
                     .option('delimiter', ',')
                     .csv(financial_path)
                     )
-        logging.info('Financial data was properly extracted from the file.')
+        logging.info('Financial data was correctly extracted from the file.')
     except: 
-        logging.critical("Couldn't load data from financial.csv file")
+        logging.critical("Unable to load data from financial.csv file")
 
     #creating new dataframe containing data from clients and financial files
     df = (clients_DB
@@ -64,9 +64,9 @@ def main(clients_path : str, financial_path : str, list_of_countries_to_preserve
         .mode('overwrite')
         .parquet(working_directory + '/client_data')
         )
-        logging.info("Data was properly written to a file.")
+        logging.info("Data was successfully written to a file.")
     except:
-        logging.error("Couldn't write data to a file.")
+        logging.error("Unable to write data to a file.")
 
 if __name__ == '__main__':
 
@@ -78,4 +78,4 @@ if __name__ == '__main__':
         financial_path = working_directory + '/financial.csv'
         main(clients_path, financial_path, list_of_countries_to_preserve)
     except:
-        logging.critical("Main app does not work. This may be caused by incorrect directory.")
+        logging.critical("The app is not working. This may be due to incorrect directory.")
