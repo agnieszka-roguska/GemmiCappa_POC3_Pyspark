@@ -17,10 +17,10 @@ def main(clients_path : str, financial_path : str, list_of_countries_to_preserve
                     .getOrCreate()
                     )
 
-    #extracting working directory from clients.csv directory
+    #extracting working directory path from clients.csv file path
     working_directory = re.sub(r'/clients.csv', '', clients_path)
 
-    #BRONZE DATA - raw data read from the file
+    #reading data from clients.csv and financial.csv files
     try:
         clients_DB = (spark
                     .read
@@ -43,6 +43,7 @@ def main(clients_path : str, financial_path : str, list_of_countries_to_preserve
     except: 
         logging.critical("Couldn't load data from financial.csv file")
 
+    #creating new dataframe containing data from clients and financial files
     df = (clients_DB
           .join(financial_DB, 'id')
           .drop('id')
@@ -51,12 +52,12 @@ def main(clients_path : str, financial_path : str, list_of_countries_to_preserve
     column_names_to_change = ['cc_t', 'cc_n', 'cc_mc', 'a', 'ac_t']
     column_names_new = ['credit_card_type', 'credit_card_number', 'credit_card_main_currency', 'active', 'account_type']
 
+    #filtering out all clients from countries other than specified, removing the PPI and renaming columns as requested in a task
     df = functions.filter_countries(df, list_of_countries_to_preserve)
     df = functions.rename_columns(df, column_names_to_change, column_names_new)
     df = functions.remove_personal_identifiable_informations(df)
 
     #writing data to the parquet file
-
     try:
         (df
         .write
@@ -65,9 +66,7 @@ def main(clients_path : str, financial_path : str, list_of_countries_to_preserve
         )
         logging.info("Data was properly written to a file.")
     except:
-        logging.error("Couldn't wite data to a file.")
-
-    df.show()
+        logging.error("Couldn't write data to a file.")
 
 if __name__ == '__main__':
 
