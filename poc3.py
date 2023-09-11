@@ -48,14 +48,16 @@ def main(clients_path : str, financial_path : str, list_of_countries_to_preserve
           .join(financial_DB, 'id')
           .drop('id')
           )
-
     column_names_to_change = ['cc_t', 'cc_n', 'cc_mc', 'a', 'ac_t']
     column_names_new = ['credit_card_type', 'credit_card_number', 'credit_card_main_currency', 'active', 'account_type']
 
     #filtering out all clients from countries other than specified, removing the PPI and renaming columns as requested in a task
     df = functions.filter_countries(df, list_of_countries_to_preserve)
+    logging.info('Successfully filtered out customers from countries other than: %s', list_of_countries_to_preserve)
+    df = functions.remove_personal_identifiable_information(df)
+    logging.info("Sucessfully removed all columns with personal identifiable information ")
     df = functions.rename_columns(df, column_names_to_change, column_names_new)
-    df = functions.remove_personal_identifiable_informations(df)
+    logging.info("Successfully renamed column names containing abbreviations.")
 
     #writing data to the parquet file
     try:
@@ -77,5 +79,6 @@ if __name__ == '__main__':
         clients_path = working_directory + '/clients.csv'
         financial_path = working_directory + '/financial.csv'
         main(clients_path, financial_path, list_of_countries_to_preserve)
+        logging.info("All done.")
     except:
-        logging.critical("The app is not working. This may be due to incorrect directory.")
+        logging.critical("The app is not working.")
