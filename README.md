@@ -2,7 +2,7 @@
 
 ### Table of contents
 - [Introduction](#introduction)
-- [Componnets](#components)
+- [Componets](#components)
 - [Input parameters](#input-parameters)
 - [Input datasets structure](#input-datasets-stuctures)
 - [Result dataset structure](#resulted-dataset-stucture)
