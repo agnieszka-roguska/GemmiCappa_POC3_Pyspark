@@ -28,24 +28,23 @@ class TestMethods(unittest.TestCase):
     sample_dataframe = spark.createDataFrame(sample_data, sample_columns)
 
 
-    def test_filter_countries_function_filters_out_countries_so_that_only_defined_ones_left(self):
+    def test_filter_column_function_filters_out_countries_so_that_only_defined_ones_left(self):
         countries_to_preserve = [('Czech Republic'), ('Spain'), ('United States')]
         expected = self.spark.createDataFrame(countries_to_preserve, 'string').toDF('country')
-        result = functions.filter_countries(self.sample_dataframe, countries_to_preserve)
+        result = functions.filter_column(self.sample_dataframe, "country", countries_to_preserve)
         result = result.select('country').distinct()
         chispa.assert_df_equality(expected, result, ignore_row_order = True)
 
     def test_rename_columns_takes_dataframe_as_parameter_and_returnes_dataframe_with_certain_column_renamed(self):
-        column_names_to_change = ['email', 'gender', 'credit_card_main_currency']
-        column_names_new = ['e-mail', 'sex', 'main_currency']
+        column_names_old_new_pairs = {'email' : 'e-mail', 'gender' : 'sex', 'credit_card_main_currency' : 'main_currency'}
         expected = self.spark.createDataFrame(self.sample_data, ['first_name', 'last_name', 'e-mail', 'sex', 'country', 'phone', 'birthdate', 'credit_card_number', 'main_currency', 'active', 'account_type'])
-        result = functions.rename_columns(self.sample_dataframe, column_names_to_change, column_names_new)
+        result = functions.rename_columns(self.sample_dataframe, column_names_old_new_pairs)
         chispa.assert_df_equality(expected, result)
 
     def test_remove_personal_identifiable_informations_returns_given_dataframe_without_columns_containing_name_surname_phone_and_birthdate_info(self):
         expected_column_names = [element for element in self.sample_columns if element not in ['first_name', 'last_name', 'phone', 'birthdate']]
         expected = self.sample_dataframe.select(expected_column_names)
-        result = functions.remove_personal_identifiable_informations(self.sample_dataframe)
+        result = functions.remove_personal_identifiable_information(self.sample_dataframe, ['first_name', 'last_name', 'phone', 'birthdate'])
         chispa.assert_df_equality(expected, result)
 
 unittest.main()
