@@ -4,7 +4,7 @@ import json
 parser = argparse.ArgumentParser()
 parser.add_argument('--clients_path', type = str, required = True, help = 'path to clients dataset')
 parser.add_argument('--financial_path', type = str, required = True, help = 'path to financial dataset')
-parser.add_argument('--countries_to_preserve', type = str, required = True, help = 'list of countries we want to preserve in the final dataset')
+parser.add_argument('--countries_to_preserve', type = str, required = True, help = 'list of countries we want to preserve in the final dataset; countries should be separated by commas (no spaces neither before nor after commas)')
 
 args = parser.parse_args()
 
