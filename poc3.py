@@ -60,7 +60,7 @@ def main(clients_path: str, financial_path: str, list_of_countries_to_preserve: 
 
     # creating new dataframe containing data from clients and financial files
     df = clients_DB.join(financial_DB, "id").drop("id")
-    
+
     column_names_to_change_old_new_pairs = {
         "cc_t": "credit_card_type",
         "cc_n": "credit_card_number",

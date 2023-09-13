@@ -158,15 +158,15 @@ class TestMethods(unittest.TestCase):
         chispa.assert_df_equality(expected, result, ignore_row_order=True)
 
     def test_rename_columns_takes_dataframe_as_parameter_and_returnes_dataframe_with_certain_column_renamed(
-        self
+        self,
     ):
         column_names_old_new_pairs = {
-            "email" : "e-mail",
-            "gender" : "sex",
-            "credit_card_main_currency" : "main_currency",
+            "email": "e-mail",
+            "gender": "sex",
+            "credit_card_main_currency": "main_currency",
         }
         expected = self.spark.createDataFrame(
-            self.sample_data, 
+            self.sample_data,
             [
                 "first_name",
                 "last_name",
@@ -180,18 +180,18 @@ class TestMethods(unittest.TestCase):
                 "active",
                 "account_type",
             ],
-            )
+        )
         result = functions.rename_columns(
             self.sample_dataframe, column_names_old_new_pairs
         )
         chispa.assert_df_equality(expected, result)
 
     def test_remove_personal_identifiable_informations_returns_given_dataframe_without_columns_containing_name_surname_phone_and_birthdate_info(
-        self
+        self,
     ):
         expected_column_names = [
-            element 
-            for element in self.sample_columns 
+            element
+            for element in self.sample_columns
             if element not in ["first_name", "last_name", "phone", "birthdate"]
         ]
         expected = self.sample_dataframe.select(expected_column_names)
