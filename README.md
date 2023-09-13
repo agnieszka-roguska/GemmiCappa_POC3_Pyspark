@@ -1,6 +1,6 @@
-## GemmiCappa_POC3_Pyspark
+# GemmiCappa_POC3_Pyspark
 
-### Table of contents
+## Table of contents
 - [Introduction](#introduction)
 - [Componets](#components)
 - [Input parameters](#input-parameters)
@@ -9,7 +9,7 @@
 
 <a ID = "Introduction"></a>
 
-### Introduction
+## Introduction
 
 In this project we load data from two datasets: dataset containing information about the clients and the dataset containing their financial data. We combine clients and financial information into one dataframe and filter clients by their nationality. The result is the parquet file with financial data of the clients from specified countries.
 
@@ -17,7 +17,7 @@ All abbreviated column names are replaced with full variable names. The output d
 
 <a ID = "Components"></a>
 
-### Components
+## Components
 
 The project is composed of three python files:
 - poc3.py : File containing the main function.
@@ -26,17 +26,17 @@ The project is composed of three python files:
 
 <a ID = "Input parameters"></a>
 
-### Input parameters
+## Input parameters
 
 Application recieves 3 arguments:
 - path to the `clients.csv` dataset
 - path to the `financial.csv` dataset
 - list of countries whose citizens we want to preserve in the dataframe
 
-<a ID = "input datasets structure"></a>
+<a ID = "Input datasets structure"></a>
 
-### Input datasets structure
-#### clients.csv
+## Input datasets structure
+### clients.csv
 |name|type|short decription|
 |--|--|--|
 |ID|int|unique numeric identifier|
@@ -48,7 +48,7 @@ Application recieves 3 arguments:
 |phone|str|client's phone number|
 |birthdate|date|client's birth date|
 
-#### financial.csv
+### financial.csv
 
 |name|type|short decription|
 |--|--|--|
@@ -60,9 +60,9 @@ Application recieves 3 arguments:
 |ac_t|str|client's account type|
 
 <a ID = "Resulted dataset stucture"></a>
-### Resulted dataset stucture
+## Resulted dataset stucture
 
-#### client_data.parquet
+### client_data.parquet
 
 |name|type|short decription|
 |--|--|--|
