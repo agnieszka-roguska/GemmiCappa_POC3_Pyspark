@@ -5,6 +5,7 @@ from pyspark.sql import SparkSession
 
 import functions
 
+
 class TestMethods(unittest.TestCase):
     spark = (SparkSession.builder
              .master("local")
@@ -46,5 +47,6 @@ class TestMethods(unittest.TestCase):
         expected = self.sample_dataframe.select(expected_column_names)
         result = functions.remove_personal_identifiable_information(self.sample_dataframe, ['first_name', 'last_name', 'phone', 'birthdate'])
         chispa.assert_df_equality(expected, result)
+
 
 unittest.main()
