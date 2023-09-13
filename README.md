@@ -4,7 +4,7 @@
 - [Introduction](#introduction)
 - [Componets](#components)
 - [Input parameters](#input-parameters)
-- [Input datasets structure](#input-datasets-stuctures)
+- [Input datasets structure](#input-datasets-stucture)
 - [Result dataset structure](#resulted-dataset-stucture)
 
 <a ID = "Introduction"></a>
@@ -13,16 +13,16 @@
 
 In this project we load data from two datasets: dataset containing information about the clients and the dataset containing their financial data. We combine clients and financial information into one dataframe and filter clients by their nationality. The result is the parquet file with financial data of the clients from specified countries.
 
-All abbreviated column names are replaced with full variable names. The output dataframe does not contain personal identifiable information. 
+All abbreviated column names are replaced with full variable names. The output dataframe does not contain personal identifiable information.
 
 <a ID = "Components"></a>
 
 ### Components
 
-The project is composed of three python files: 
+The project is composed of three python files:
 - poc3.py : File containing the main function.
 - functions.py : File with function definitions.
-- tests.py : File with tests. 
+- tests.py : File with tests.
 
 <a ID = "Input parameters"></a>
 
@@ -33,26 +33,26 @@ Application recieves 3 arguments:
 - path to the `financial.csv` dataset
 - list of countries whose citizens we want to preserve in the dataframe
 
-<a ID = "Input datasets column structure"></a>
+<a ID = "Input datasets structure"></a>
 
-### Input datasets column structure
+### Input datasets structure
 #### clients.csv
 |name|type|short decription|
 |--|--|--|
-|id|int|unique numeric identifier|
+|ID|int|unique numeric identifier|
 |first_name|str|client's first name|
 |last_name|str|client's surname|
 |email|str|client's email address|
 |gender|str|client's gender|
 |country|str|client's home country|
-|phone|str|client's phone number| 
+|phone|str|client's phone number|
 |birthdate|date|client's birth date|
 
 #### financial.csv
 
 |name|type|short decription|
 |--|--|--|
-|id|int|unique numeric identifier|
+|ID|int|unique numeric identifier|
 |cc_t|str|client's credit card type|
 |cc_n|bigint|client's credit card number|
 |cc_mc|str|client's credit card main currency|
