@@ -7,7 +7,7 @@
 - [Input datasets structure](#input-datasets-stuctures)
 - [Result dataset structure](#resulted-dataset-stucture)
 
-<a id = "Introduction"></a>
+<a ID = "Introduction"></a>
 
 ### Introduction
 
@@ -15,7 +15,7 @@ In this project we load data from two datasets: dataset containing information a
 
 All abbreviated column names are replaced with full variable names. The output dataframe does not contain personal identifiable information. 
 
-<a id = "Components"></a>
+<a ID = "Components"></a>
 
 ### Components
 
@@ -24,7 +24,7 @@ The project is composed of three python files:
 - functions.py : File with function definitions.
 - tests.py : File with tests. 
 
-<a id = "Input parameters"></a>
+<a ID = "Input parameters"></a>
 
 ### Input parameters
 
@@ -33,10 +33,10 @@ Application recieves 3 arguments:
 - path to the `financial.csv` dataset
 - list of countries whose citizens we want to preserve in the dataframe
 
-<a id = "Input datasets column structure"></a>
+<a ID = "Input datasets column structure"></a>
 
 ### Input datasets column structure
-###### clients.csv
+#### clients.csv
 |name|type|short decription|
 |--|--|--|
 |id|int|unique numeric identifier|
@@ -48,7 +48,7 @@ Application recieves 3 arguments:
 |phone|str|client's phone number| 
 |birthdate|date|client's birth date|
 
-###### financial.csv
+#### financial.csv
 
 |name|type|short decription|
 |--|--|--|
@@ -59,10 +59,10 @@ Application recieves 3 arguments:
 |a|bool|bool determining if account is active|
 |ac_t|str|client's account type|
 
-<a id = "Resulted dataset stucture"></a>
+<a ID = "Resulted dataset stucture"></a>
 ### Resulted dataset stucture
 
-###### client_data.parquet
+#### client_data.parquet
 
 |name|type|short decription|
 |--|--|--|
