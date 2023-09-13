@@ -1,9 +1,9 @@
-import chispa
 import unittest
 
-from pyspark.sql import SparkSession
+import chispa
 
 import functions
+from pyspark.sql import SparkSession
 
 
 class TestMethods(unittest.TestCase):
@@ -186,7 +186,7 @@ class TestMethods(unittest.TestCase):
         )
         chispa.assert_df_equality(expected, result)
 
-    def test_remove_personal_identifiable_informations_returns_given_dataframe_without_columns_containing_name_surname_phone_and_birthdate_info(
+    def test_remove_personal_identifiable_informations_returns_given_dataframe_without_columns_containing_PII(
         self,
     ):
         expected_column_names = [

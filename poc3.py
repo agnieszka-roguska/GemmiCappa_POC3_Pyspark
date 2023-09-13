@@ -23,13 +23,11 @@ countries_to_preserve = args.countries_to_preserve.split(",")
 
 def main(clients_path: str, financial_path: str, list_of_countries_to_preserve: list):
 
-    import re
     import logging
-
-    from pyspark.sql import SparkSession
-    from pyspark.sql.functions import col
+    import re
 
     import functions
+    from pyspark.sql import SparkSession
 
     FORMAT = "%(asctime)s:%(name)s:%(levelname)s - %(message)s"
     logging.basicConfig(format=FORMAT, level=logging.INFO)
