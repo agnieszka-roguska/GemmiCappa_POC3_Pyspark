@@ -2,16 +2,16 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
-    "--clients_path", type = str, required = True, help = "path to clients dataset"
+    "--clients_path", type=str, required=True, help="path to clients dataset"
 )
 parser.add_argument(
-    "--financial_path", type = str, required = True, help = "path to financial dataset"
+    "--financial_path", type=str, required=True, help="path to financial dataset"
 )
 parser.add_argument(
-    "--countries_to_preserve", 
-    type = str, 
-    required = True, 
-    help = "list of countries we want to preserve in the final dataset; countries should be separated by commas (no spaces neither before nor after commas)"
+    "--countries_to_preserve",
+    type=str,
+    required=True,
+    help="list of countries we want to preserve in the final dataset; countries should be separated by commas (no spaces neither before nor after commas)"
 )
 
 args = parser.parse_args()
@@ -41,15 +41,18 @@ def main(clients_path: str, financial_path: str, list_of_countries_to_preserve: 
 
     # reading data from clients.csv and financial.csv files
     try:
-        clients_DB = spark.read.option("header", True).option("delimiter", ",").csv(clients_path)
+        clients_DB = (
+            spark.read.option("header", True).option("delimiter", ",").csv(clients_path)
+        )
         logging.info("Clients data was correctly extracted from the file.")
     except:
         logging.critical("Unable to load data from clients.csv file")
 
     try:
-        financial_DB = (spark.read.option("header", True)
-                        .option("delimiter", ",")
-                        .csv(financial_path)
+        financial_DB = (
+            spark.read.option("header", True)
+            .option("delimiter", ",")
+            .csv(financial_path)
         )
         logging.info("Financial data was correctly extracted from the file.")
     except:
@@ -57,13 +60,12 @@ def main(clients_path: str, financial_path: str, list_of_countries_to_preserve: 
 
     # creating new dataframe containing data from clients and financial files
     df = clients_DB.join(financial_DB, "id").drop("id")
-
     
     column_names_to_change_old_new_pairs = {
         "cc_t": "credit_card_type",
-        "cc_n": "credit_card_number", 
-        "cc_mc": "credit_card_main_currency", 
-        "a": "active", 
+        "cc_n": "credit_card_number",
+        "cc_mc": "credit_card_main_currency",
+        "a": "active",
         "ac_t": "account_type",
     }
     columns_with_PII = ["first_name", "last_name", "phone", "birthdate"]
