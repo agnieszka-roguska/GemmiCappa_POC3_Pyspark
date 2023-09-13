@@ -4,7 +4,7 @@
 - [Introduction](#introduction)
 - [Componets](#components)
 - [Input parameters](#input-parameters)
-- [Input datasets structure](#input-datasets-stucture)
+- [Input datasets structure](#input-datasets-structure)
 - [Result dataset structure](#resulted-dataset-stucture)
 
 <a ID = "Introduction"></a>
