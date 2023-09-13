@@ -1,4 +1,4 @@
-# GemmiCappa_POC3_Pyspark
+## GemmiCappa_POC3_Pyspark
 
 ### Table of contents
 - [Introduction](#introduction)
@@ -33,7 +33,7 @@ Application recieves 3 arguments:
 - path to the `financial.csv` dataset
 - list of countries whose citizens we want to preserve in the dataframe
 
-<a ID = "Input datasets structure"></a>
+<a ID = "input datasets structure"></a>
 
 ### Input datasets structure
 #### clients.csv

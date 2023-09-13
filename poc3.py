@@ -68,7 +68,7 @@ def main(clients_path: str, financial_path: str, list_of_countries_to_preserve: 
     }
     columns_with_PII = ["first_name", "last_name", "phone", "birthdate"]
 
-    # filtering out all clients from countries other than specified, removing the PPI and renaming columns as requested in a task
+    # filtering out all clients from countries other than specified, removing the PPI and renaming columns
     df = functions.filter_column(df, "country", list_of_countries_to_preserve)
     logging.info(
         "Successfully filtered out customers from countries other than: %s",
