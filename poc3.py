@@ -11,7 +11,7 @@ parser.add_argument(
     "--countries_to_preserve",
     type=str,
     required=True,
-    help="list of countries we want to preserve in the final dataset; countries should be separated by commas",
+    help="list of countries we want to preserve; countries should be separated by commas",
 )
 
 args = parser.parse_args()
