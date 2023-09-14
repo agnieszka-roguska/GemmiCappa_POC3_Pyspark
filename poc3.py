@@ -40,7 +40,8 @@ def main(clients_path: str, financial_path: str, list_of_countries_to_preserve: 
     # reading data from clients.csv and financial.csv files
     try:
         clients_DB = (
-            spark.read.option("header", True).option("delimiter", ",").csv(clients_path)
+            spark.read.option("header", True).option(
+                "delimiter", ",").csv(clients_path)
         )
         logging.info("Clients data was correctly extracted from the file.")
     except:
@@ -74,7 +75,8 @@ def main(clients_path: str, financial_path: str, list_of_countries_to_preserve: 
         "Successfully filtered out customers from countries other than: %s",
         list_of_countries_to_preserve,
     )
-    df = functions.remove_personal_identifiable_information(df, columns_with_PII)
+    df = functions.remove_personal_identifiable_information(
+        df, columns_with_PII)
     logging.info(
         "Sucessfully removed all columns with personal identifiable information "
     )

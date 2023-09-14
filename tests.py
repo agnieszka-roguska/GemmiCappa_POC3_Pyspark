@@ -7,7 +7,8 @@ from pyspark.sql import SparkSession
 
 
 class TestMethods(unittest.TestCase):
-    spark = SparkSession.builder.master("local").appName("chispa").getOrCreate()
+    spark = SparkSession.builder.master(
+        "local").appName("chispa").getOrCreate()
 
     sample_data = [
         (
@@ -147,7 +148,8 @@ class TestMethods(unittest.TestCase):
     def test_filter_column_function_filters_out_countries_so_that_only_defined_ones_left(
         self,
     ):
-        countries_to_preserve = [("Czech Republic"), ("Spain"), ("United States")]
+        countries_to_preserve = [
+            ("Czech Republic"), ("Spain"), ("United States")]
         expected = self.spark.createDataFrame(countries_to_preserve, "string").toDF(
             "country"
         )
@@ -196,7 +198,8 @@ class TestMethods(unittest.TestCase):
         ]
         expected = self.sample_dataframe.select(expected_column_names)
         result = functions.remove_personal_identifiable_information(
-            self.sample_dataframe, ["first_name", "last_name", "phone", "birthdate"]
+            self.sample_dataframe, ["first_name",
+                                    "last_name", "phone", "birthdate"]
         )
         chispa.assert_df_equality(expected, result)
 
