@@ -2,8 +2,8 @@ import unittest
 
 import chispa
 
-import functions
 from pyspark.sql import SparkSession
+import functions
 
 
 class TestMethods(unittest.TestCase):
