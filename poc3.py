@@ -14,15 +14,8 @@ parser.add_argument(
     help="list of countries we want to preserve; countries should be separated by commas",
 )
 
-args = parser.parse_args()
-
-clients_path = args.clients_path
-financial_path = args.financial_path
-countries_to_preserve = args.countries_to_preserve.split(",")
-
 
 def main(clients_path: str, financial_path: str, list_of_countries_to_preserve: list):
-
     import logging
     import re
 
@@ -43,7 +36,7 @@ def main(clients_path: str, financial_path: str, list_of_countries_to_preserve: 
             spark.read.option("header", True).option("delimiter", ",").csv(clients_path)
         )
         logging.info("Clients data was correctly extracted from the file.")
-    except:
+    except:  # pylint: disable=bare-except
         logging.critical("Unable to load data from clients.csv file")
 
     try:
@@ -53,7 +46,7 @@ def main(clients_path: str, financial_path: str, list_of_countries_to_preserve: 
             .csv(financial_path)
         )
         logging.info("Financial data was correctly extracted from the file.")
-    except:
+    except:  # pylint: disable=bare-except
         logging.critical("Unable to load data from financial.csv file")
 
     # creating new dataframe containing data from clients and financial files
@@ -85,8 +78,14 @@ def main(clients_path: str, financial_path: str, list_of_countries_to_preserve: 
     try:
         df.write.mode("overwrite").parquet(working_directory + "/client_data")
         logging.info("Data was successfully written to a file. All done!")
-    except:
+    except:  # pylint: disable=bare-except
         logging.error("Unable to write data to a file.")
 
+
+args = parser.parse_args()
+
+clients_path = args.clients_path
+financial_path = args.financial_path
+countries_to_preserve = args.countries_to_preserve.split(",")
 
 main(clients_path, financial_path, countries_to_preserve)
