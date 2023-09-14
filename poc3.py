@@ -43,7 +43,8 @@ def main(clients_path: str, financial_path: str, list_of_countries_to_preserve: 
             spark.read.option("header", True).option("delimiter", ",").csv(clients_path)
         )
         logging.info("Clients data was correctly extracted from the file.")
-    except: logging.critical("Unable to load data from clients.csv file")
+    except:
+        logging.critical("Unable to load data from clients.csv file")
 
     try:
         financial_DB = (
@@ -52,7 +53,8 @@ def main(clients_path: str, financial_path: str, list_of_countries_to_preserve: 
             .csv(financial_path)
         )
         logging.info("Financial data was correctly extracted from the file.")
-    except: logging.critical("Unable to load data from financial.csv file")
+    except:
+        logging.critical("Unable to load data from financial.csv file")
 
     # creating new dataframe containing data from clients and financial files
     df = clients_DB.join(financial_DB, "id").drop("id")
@@ -83,7 +85,8 @@ def main(clients_path: str, financial_path: str, list_of_countries_to_preserve: 
     try:
         df.write.mode("overwrite").parquet(working_directory + "/client_data")
         logging.info("Data was successfully written to a file. All done!")
-    except: logging.error("Unable to write data to a file.")
+    except:
+        logging.error("Unable to write data to a file.")
 
 
 main(clients_path, financial_path, countries_to_preserve)
