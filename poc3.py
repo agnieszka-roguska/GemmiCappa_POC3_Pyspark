@@ -19,8 +19,9 @@ def main(clients_path: str, financial_path: str, list_of_countries_to_preserve: 
     import logging
     import re
 
-    import functions
     from pyspark.sql import SparkSession
+
+    import functions
 
     FORMAT = "%(asctime)s:%(name)s:%(levelname)s - %(message)s"
     logging.basicConfig(format=FORMAT, level=logging.INFO)
