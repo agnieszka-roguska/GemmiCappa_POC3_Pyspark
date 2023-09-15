@@ -186,7 +186,7 @@ class TestMethods(unittest.TestCase):
         )
         chispa.assert_df_equality(expected, result)
 
-    def test_remove_personal_identifiable_informations_returns_given_dataframe_without_columns_containing_PII(
+    def test_remove_columnss_returns_given_dataframe_without_columns_containing_PII(
         self,
     ):
         expected_column_names = [
@@ -195,7 +195,7 @@ class TestMethods(unittest.TestCase):
             if element not in ["first_name", "last_name", "phone", "birthdate"]
         ]
         expected = self.sample_dataframe.select(expected_column_names)
-        result = functions.remove_personal_identifiable_information(
+        result = functions.remove_columns(
             self.sample_dataframe, ["first_name", "last_name", "phone", "birthdate"]
         )
         chispa.assert_df_equality(expected, result)
