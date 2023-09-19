@@ -5,7 +5,7 @@ from pyspark.sql.functions import col
 def filter_column(
     dataframe: DataFrame, column_name: str, elements_to_preserve: list[str]
 ):
-    """Filters a dataframe based on the `column_name` column's values, preserving only those specified in the
+    """Filters a dataframe based on the `column_name` column's values preserving only those specified in the
     `elements_to_preserve` list
 
     :param dataframe: the dataframe we want to filter
