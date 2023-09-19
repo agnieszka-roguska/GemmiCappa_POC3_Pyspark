@@ -144,7 +144,7 @@ class TestMethods(unittest.TestCase):
     ]
     sample_dataframe = spark.createDataFrame(sample_data, sample_columns)
 
-    def test_filter_column_function_filters_out_countries_so_that_only_defined_ones_left(
+    def test_filter_column_function(
         self,
     ):
         countries_to_preserve = [("Czech Republic"), ("Spain"), ("United States")]
@@ -157,7 +157,7 @@ class TestMethods(unittest.TestCase):
         result = result.select("country").distinct()
         chispa.assert_df_equality(expected, result, ignore_row_order=True)
 
-    def test_rename_columns_takes_dataframe_as_parameter_and_returnes_dataframe_with_certain_column_renamed(
+    def test_rename_columns(
         self,
     ):
         column_names_old_new_pairs = {
@@ -186,7 +186,7 @@ class TestMethods(unittest.TestCase):
         )
         chispa.assert_df_equality(expected, result)
 
-    def test_remove_columnss_returns_given_dataframe_without_columns_containing_PII(
+    def test_remove_columns(
         self,
     ):
         expected_column_names = [
